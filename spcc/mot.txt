@@ -1,0 +1,13 @@
+POT
+Pseudo		address
+START
+BALR
+USING
+DC
+DS
+
+MOT
+Mnemonic	Length
+L		4
+A		4
+ST		4

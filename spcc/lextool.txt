@@ -1,0 +1,41 @@
+Source Code:
+test.l:
+%{
+	int key=0,op=0,id=0,relop=0,constant=0,otherop=0;
+%}
+letter [a-zA-Z]
+digit [0-9]
+%%
+(begin|if|while|do|else) {key++;}
+("+"|"-"|"*"|"/"|"=") {op++;}
+("<"|"<="|">="|"!="|">") {relop++;}
+(":="|"&"|"&&"|"|"|"||") {otherop++;}
+{letter}({letter}|{digit})* {id++;}
+({digit})+ {constant++;}
+[ \t] {}
+%%
+
+int main()
+{	
+	yylex();
+	printf("Key:%d\n Operator:%d\n Relop:%d\n Id:%d\n Constant:%d\n OtherOp=%d\n",key,op,relop,id,constant,otherop);
+	return 0;
+}
+
+
+lexical_input.txt:
+while A>B & | || A< =2*B-5 do
+A:=A+B
+
+Output:
+comp@c502:~/Downloads$ lex test.l
+comp@c502:~/Downloads$ gcc lex.yy.c -ll
+comp@c502:~/Downloads$ ./a.out < lexical_input.txt
+
+
+Key:2
+ Operator:4
+ Relop:2
+ Id:7
+ Constant:2
+ OtherOp=4
