@@ -5,7 +5,7 @@
 
 int lc = 0;
 int prev_lc = 0;
-FILE *fp1,*fp2,*fp3,*fp4,*p;
+FILE *fp1,*fp2,*fp3,*p;
 char c;
 int n = 0;
 char *base_reg;
@@ -41,11 +41,9 @@ void main(){
 	int flag = 0;
 	int j;
 
-	fp1 = fopen("Program.txt","r");
+	fp1 = fopen("input.txt","r");
     fp2 = fopen("symbol.txt","w");
-    fp3 = fopen("btable.txt","w");
-    fp4 = fopen("output.txt","w");
-
+    fp3 = fopen("mot.txt","w");
 
 	if(fp1 == NULL){
 		printf("error");
@@ -67,6 +65,13 @@ void main(){
 
 	strcpy(m_table[2].mnemonic,"ST");
 	m_table[2].length = 4;
+
+	fprintf(fp3,"POT\nPseudo\t\taddress\n");
+	for(int i=0;i<5;i++)
+		fprintf(fp3,"%s\n",p_table[i].pseudo);
+	fprintf(fp3,"\nMOT\nMnemonic\tLength\n");
+	for(int i=0;i<3;i++)
+		fprintf(fp3,"%s\t\t%d\n",m_table[i].mnemonic,m_table[i].length);
 
 	while(fscanf(fp1,"%s",str)==1){
 		flag = 0;
@@ -119,36 +124,6 @@ void main(){
 	}
 
 	fclose(fp1);
-
-//PASS 2
-	p = fopen("Program.txt","r");
-
-	while(fscanf(p,"%s",str)==1){
-		if(strcmp(str,"USING")==0){
-			fscanf(p,"%s",str);
-			if(strcmp(str,"*")==0)
-			{
-				fscanf(p,"%s",str);
-				char temp[10];
-				base_reg = strcpy(temp,str);
-				base_lc = pass2_lc;
-				fprintf(fp3,"Base Reg\tValue\n");
-				fprintf(fp3,"%s\t\t%d\n",base_reg,base_lc);
-			}
-		}
-
-		if(strcmp(str,"L")==0 || strcmp(str,"A")==0 || strcmp(str,"ST")==0){
-			fprintf(fp4,"%s\t",str);
-			fscanf(p,"%s",str);
-			fprintf(fp4,"%s\t",str);
-			fscanf(p,"%s",str);
-			int index = symbol_table_lc(str);
-			fprintf(fp4,"%d(%d,%s)\n",symbol_table[index].lc_val,base_lc,base_reg);
-		}
-
-	}	
-
-fclose(p);
 }
 int motSearch(char str[]){
 	int i=0;

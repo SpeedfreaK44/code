@@ -5,7 +5,7 @@
 
 int lc = 0;
 int prev_lc = 0;
-FILE *fp1,*fp2,*fp3,*fp4,*p;
+FILE *fp1,*fp2,*fp3,*fp4,*fp5,*p;
 char c;
 int n = 0;
 char *base_reg;
@@ -41,10 +41,11 @@ void main(){
 	int flag = 0;
 	int j;
 
-	fp1 = fopen("Program.txt","r");
+	fp1 = fopen("input.txt","r");
     fp2 = fopen("symbol.txt","w");
     fp3 = fopen("btable.txt","w");
     fp4 = fopen("output.txt","w");
+    fp5 = fopen("mot.txt","w");
 
 
 	if(fp1 == NULL){
@@ -67,6 +68,13 @@ void main(){
 
 	strcpy(m_table[2].mnemonic,"ST");
 	m_table[2].length = 4;
+
+	fprintf(fp5,"POT\nPseudo\t\taddress\n");
+	for(int i=0;i<5;i++)
+		fprintf(fp5,"%s\n",p_table[i].pseudo);
+	fprintf(fp5,"\nMOT\nMnemonic\tLength\n");
+	for(int i=0;i<3;i++)
+		fprintf(fp5,"%s\t\t%d\n",m_table[i].mnemonic,m_table[i].length);
 
 	while(fscanf(fp1,"%s",str)==1){
 		flag = 0;
@@ -121,7 +129,7 @@ void main(){
 	fclose(fp1);
 
 //PASS 2
-	p = fopen("Program.txt","r");
+	p = fopen("input.txt","r");
 
 	while(fscanf(p,"%s",str)==1){
 		if(strcmp(str,"USING")==0){

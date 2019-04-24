@@ -1,0 +1,8 @@
+void main ( )
+{
+	int 7a = 3 , b = 4 , c ;
+	float z ;
+	do
+	c = a + b ;
+	printf ( "%d" , c ) ;
+}
